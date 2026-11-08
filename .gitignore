@@ -1,0 +1,8 @@
+node_modules/
+.env
+server/uploads/*
+!server/uploads/.gitkeep
+.DS_Store
+Thumbs.db
+npm-debug.log*
+\n.env\nnode_modules/

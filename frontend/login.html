@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | Secure Digital Vault</title>
+  <meta name="description" content="Sign in to your private vault to access and manage your files securely.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .auth-container {
+      min-height: calc(100vh - 160px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1rem;
+    }
+    .auth-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+    .auth-header {
+      margin-bottom: 2rem;
+    }
+    .auth-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--accent-cyan-glow);
+      border: 1px solid var(--accent-cyan);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin: 0 auto 1rem auto;
+    }
+    .demo-creds-box {
+      background: rgba(6, 182, 212, 0.06);
+      border: 1px dashed rgba(6, 182, 212, 0.4);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Clean Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">🛡️</div>
+        <span>Secure Digital Vault</span>
+      </a>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="register.html" class="btn btn-primary btn-sm">Create Account</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Login Form Container -->
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-icon">🔑</div>
+        <h2>Sign In</h2>
+        <p style="margin-top: 0.35rem;">Enter your email and password to access your vault</p>
+      </div>
+
+      <!-- Demo Quick-Fill Box for Quick Testing -->
+      <div class="demo-creds-box">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem;">
+          <strong style="color: var(--accent-cyan);">💡 Demo Account Quick-Fill</strong>
+          <button type="button" id="demo-fill-btn" class="btn btn-primary btn-sm" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;">Fill Demo</button>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-muted);">
+          Email: <code>alice@vault.local</code> | Pass: <code>VaultPass@2026</code>
+        </div>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email Address</label>
+          <input type="email" id="login-email" class="form-input" placeholder="user@domain.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">Password</label>
+          <div class="input-password-wrapper">
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="password-toggle-btn" title="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.8rem; margin-top: 0.5rem; font-size: 1rem;">
+          Sign In
+        </button>
+      </form>
+
+      <div style="margin-top: 1.75rem; font-size: 0.9rem; color: var(--text-secondary);">
+        Don't have an account yet? <a href="register.html" style="font-weight: 600;">Create Account</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Clean Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div style="font-weight: 700; color: var(--text-primary);">🛡️ Secure Digital Vault</div>
+      <div>Simple, private and secure file management.</div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/alerts.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

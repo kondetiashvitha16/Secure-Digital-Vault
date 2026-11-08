@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Vault | Secure Digital Vault</title>
+  <meta name="description" content="Manage your private files, view recent activity, and access your secure digital storage.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 2.25rem 0 1.75rem 0;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .search-input-wrapper {
+      position: relative;
+      max-width: 360px;
+      width: 100%;
+    }
+    .search-icon {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .search-input-wrapper input {
+      padding-left: 2.4rem;
+    }
+    .preview-container {
+      max-height: 520px;
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+    }
+    .preview-image {
+      max-width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+    }
+    .preview-pdf {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: var(--radius-sm);
+    }
+    .preview-text {
+      width: 100%;
+      max-height: 480px;
+      overflow: auto;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      word-break: break-all;
+      background: #070c16;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+    }
+    .preview-fallback {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="dashboard.html" class="brand">
+        <div class="brand-icon">🛡️</div>
+        <span>Secure Digital Vault</span>
+      </a>
+
+      <div class="nav-user">
+        <div class="user-badge">
+          <div id="user-avatar-initial" class="user-avatar">U</div>
+          <span id="user-display-name" style="font-weight: 600; color: var(--text-primary);">User</span>
+        </div>
+        <button id="logout-btn" class="btn btn-outline btn-sm">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Vault Dashboard Content -->
+  <main class="container" style="padding-bottom: 4rem;">
+
+    <!-- Dashboard Welcome Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 id="welcome-title">Welcome back, User</h1>
+        <p>Manage your private files, monitor recent updates, and keep your storage organized.</p>
+      </div>
+    </div>
+
+    <!-- Stats / Overview Grid -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-wrapper stat-icon-cyan">📁</div>
+        <div class="stat-content">
+          <span class="stat-label">Total Files</span>
+          <span id="stat-total-files" class="stat-value">0</span>
+          <span class="stat-sub" style="color: var(--text-muted);">Stored in vault</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper stat-icon-emerald">💾</div>
+        <div class="stat-content">
+          <span class="stat-label">Storage Used</span>
+          <span id="stat-total-storage" class="stat-value">0 KB</span>
+          <span class="stat-sub" style="color: var(--accent-emerald);">Active quota</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper stat-icon-purple">🔔</div>
+        <div class="stat-content">
+          <span class="stat-label">Recent Activity</span>
+          <span id="stat-activity-count" class="stat-value">0 events</span>
+          <span class="stat-sub" style="color: #c4b5fd;">Account records</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-header">
+      <button class="tab-btn active" data-tab="files-tab">
+        📁 My Files
+      </button>
+      <button class="tab-btn" data-tab="logs-tab">
+        📜 Recent Activity
+      </button>
+      <button class="tab-btn" data-tab="alerts-tab">
+        🔔 Notifications
+      </button>
+    </div>
+
+    <!-- =========================================================================
+         TAB 1: MY FILES & UPLOAD
+         ========================================================================= -->
+    <div id="files-tab" class="tab-pane active">
+
+      <!-- Upload Section -->
+      <div class="card" style="margin-bottom: 2rem;">
+        <div class="card-header">
+          <h3 class="card-title"><span>⬆️</span> Upload File</h3>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Max Size: 50MB</span>
+        </div>
+
+        <div id="upload-dropzone" class="upload-dropzone">
+          <div class="upload-icon">📁</div>
+          <div class="upload-title">Drop your file here, or click to browse</div>
+          <div class="upload-hint">Upload documents, images, PDFs, archives, and other files securely</div>
+          <input type="file" id="file-input" style="display: none;">
+        </div>
+
+        <!-- Selected File Preview -->
+        <div id="selected-file-info" class="file-preview-card" style="display: none;">
+          <div class="file-preview-info">
+            <div class="file-preview-icon">📄</div>
+            <div>
+              <div id="selected-file-name" class="file-preview-name">filename.txt</div>
+              <div id="selected-file-size" class="file-preview-size">0 KB</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button id="cancel-upload-btn" class="btn btn-outline btn-sm">Cancel</button>
+            <button id="start-secure-upload-btn" class="btn btn-emerald btn-sm">Secure & Upload</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- File List Section -->
+      <div class="card">
+        <div class="filter-bar">
+          <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="file-search-input" class="form-input" placeholder="Search files by name...">
+          </div>
+          <div style="font-size: 0.85rem; color: var(--text-muted);">
+            <span id="file-count-indicator">0 files found</span>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="vault-table">
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>File Type</th>
+                <th>File Size</th>
+                <th>Upload Date</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="files-table-body">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="files-empty-state" style="display: none; text-align: center; padding: 3.5rem 1rem;">
+          <div style="font-size: 3rem; margin-bottom: 0.75rem;">📭</div>
+          <h3 style="color: var(--text-secondary);">No Files in Your Vault</h3>
+          <p>Choose a file above to upload and store your files privately.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- =========================================================================
+         TAB 2: RECENT ACTIVITY
+         ========================================================================= -->
+    <div id="logs-tab" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><span>📜</span> Recent Activity</h3>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Account action history</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="vault-table">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Activity</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="logs-table-body">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="logs-empty-state" style="display: none; text-align: center; padding: 3rem 1rem;">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📋</div>
+          <p>No recent activity recorded yet.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         TAB 3: NOTIFICATIONS / SECURITY ALERTS
+         ========================================================================= -->
+    <div id="alerts-tab" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><span>🔔</span> Notifications</h3>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Account alerts and security notices</span>
+        </div>
+
+        <div id="alerts-feed-container" style="display: flex; flex-direction: column; gap: 0.85rem;">
+          <!-- Dynamically loaded via JS -->
+        </div>
+
+        <div id="alerts-empty-state" style="display: none; text-align: center; padding: 3rem 1rem;">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🛡️</div>
+          <h4 style="color: var(--accent-emerald);">All Good!</h4>
+          <p>No unusual activity or security notifications on your account.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       MODAL 1: "Secure Your File" (Upload Password Modal)
+       ========================================================================= -->
+  <div id="upload-password-modal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+          <span>🔒</span> Secure Your File
+        </h3>
+        <button type="button" class="btn-icon btn-outline modal-close-btn" style="border: none; font-size: 1.1rem; cursor: pointer;">✕</button>
+      </div>
+      <form id="upload-password-form">
+        <div class="modal-body">
+          <div style="background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.25rem;">📄</span>
+            <div>
+              <div id="modal-upload-filename" style="font-weight: 600; font-size: 0.9rem; color: var(--text-primary);">filename.pdf</div>
+              <div id="modal-upload-filesize" style="font-size: 0.75rem; color: var(--text-muted);">0 KB</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="upload-file-password">Create File Password</label>
+            <div class="input-password-wrapper">
+              <input type="password" id="upload-file-password" class="form-input" placeholder="Enter file password" required minlength="4" autocomplete="new-password">
+              <button type="button" class="password-toggle-btn" title="Toggle password visibility">👁️</button>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <label class="form-label" for="upload-file-confirm-password">Confirm File Password</label>
+            <div class="input-password-wrapper">
+              <input type="password" id="upload-file-confirm-password" class="form-input" placeholder="Confirm file password" required minlength="4" autocomplete="new-password">
+              <button type="button" class="password-toggle-btn" title="Toggle password visibility">👁️</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm modal-cancel-btn">Cancel</button>
+          <button type="submit" id="submit-secure-upload-btn" class="btn btn-emerald btn-sm">Secure & Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: "Enter File Password" (For View / Download / Delete)
+       ========================================================================= -->
+  <div id="password-prompt-modal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="prompt-modal-title" style="display: flex; align-items: center; gap: 0.5rem;">
+          <span>🔑</span> Enter File Password
+        </h3>
+        <button type="button" class="btn-icon btn-outline modal-close-btn" style="border: none; font-size: 1.1rem; cursor: pointer;">✕</button>
+      </div>
+      <form id="password-prompt-form">
+        <div class="modal-body">
+          <p id="prompt-modal-desc" style="margin-bottom: 1.25rem; font-size: 0.95rem; color: var(--text-secondary);">
+            Please enter the file password.
+          </p>
+
+          <div style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
+            <span id="prompt-file-icon" style="font-size: 1.25rem;">📄</span>
+            <div>
+              <div id="prompt-file-name" style="font-weight: 600; font-size: 0.9rem; color: var(--text-primary);">filename.pdf</div>
+              <div id="prompt-file-size" style="font-size: 0.75rem; color: var(--text-muted);">0 KB</div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <label class="form-label" for="prompt-file-password">File Password</label>
+            <div class="input-password-wrapper">
+              <input type="password" id="prompt-file-password" class="form-input" placeholder="Enter file password" required autocomplete="current-password" autofocus>
+              <button type="button" class="password-toggle-btn" title="Toggle password visibility">👁️</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm modal-cancel-btn">Cancel</button>
+          <button type="submit" id="prompt-submit-btn" class="btn btn-primary btn-sm">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: "View / Preview File"
+       ========================================================================= -->
+  <div id="file-preview-modal" class="modal-backdrop">
+    <div class="modal" style="max-width: 780px;">
+      <div class="modal-header">
+        <h3 id="preview-modal-title" style="display: flex; align-items: center; gap: 0.5rem;">
+          <span>👁️</span> File Preview
+        </h3>
+        <button type="button" class="btn-icon btn-outline modal-close-btn" style="border: none; font-size: 1.1rem; cursor: pointer;">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 1.25rem;">
+        <!-- File Metadata bar -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; font-size: 0.85rem; color: var(--text-secondary);">
+          <div>
+            <strong id="preview-meta-name" style="color: var(--text-primary); font-size: 0.95rem;">document.pdf</strong>
+            <span id="preview-meta-type" style="margin-left: 0.5rem; color: var(--accent-cyan);">(PDF Document)</span>
+          </div>
+          <div id="preview-meta-size">0 KB</div>
+        </div>
+
+        <!-- Render Target Area -->
+        <div id="preview-render-target" class="preview-container">
+          <!-- Dynamically filled: image, iframe, pre, or fallback -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="preview-download-btn" class="btn btn-primary btn-sm">
+          ⬇️ Download
+        </button>
+        <button type="button" class="btn btn-outline btn-sm modal-cancel-btn">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Alerts Container -->
+  <div id="toast-container"></div>
+
+  <!-- Clean Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div style="font-weight: 700; color: var(--text-primary);">🛡️ Secure Digital Vault</div>
+      <div>Simple, private and secure file management.</div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/alerts.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

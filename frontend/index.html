@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Digital Vault | Simple, Private & Secure File Storage</title>
+  <meta name="description" content="Secure Digital Vault - Store and manage your important files securely in one private place with easy uploading, organized storage, and private access.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hero-section {
+      padding: 5.5rem 0 4rem 0;
+      text-align: center;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent-cyan-glow);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      color: var(--accent-cyan);
+      padding: 0.45rem 1.15rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1.75rem;
+      letter-spacing: 0.02em;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
+      letter-spacing: -0.03em;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, #38bdf8, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      max-width: 720px;
+      margin: 0 auto 0.75rem auto;
+      line-height: 1.4;
+    }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 680px;
+      margin: 0 auto 2.5rem auto;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.75rem;
+    }
+    .section-header h2 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      margin-top: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4.5rem;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.75rem;
+      transition: all var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+    }
+    .feature-card:hover {
+      border-color: var(--border-focus);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-cyan);
+    }
+    .feature-icon-wrapper {
+      width: 52px;
+      height: 52px;
+      background: var(--accent-cyan-glow);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.25rem;
+      color: var(--accent-cyan);
+    }
+    .feature-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      color: var(--text-primary);
+    }
+    .feature-card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .how-it-works-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 3.5rem 2.5rem;
+      margin-bottom: 4.5rem;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .step-badge {
+      width: 34px;
+      height: 34px;
+      background: var(--accent-cyan);
+      color: var(--text-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .step-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .step-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    .about-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2.5rem;
+      margin-bottom: 4.5rem;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    .about-content h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .about-content p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .about-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .about-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+    }
+    .about-item-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .cta-section {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(16, 185, 129, 0.08));
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      border-radius: var(--radius-xl);
+      padding: 4rem 2rem;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .cta-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+    .cta-desc {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+    }
+    @media (max-width: 900px) {
+      .about-box {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.4rem; }
+      .hero-subtitle { font-size: 1.15rem; }
+      .how-it-works-box { padding: 2.5rem 1.5rem; }
+      .about-box { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Clean Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">🛡️</div>
+        <span>Secure Digital Vault</span>
+      </a>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="login.html" class="btn btn-outline btn-sm">Sign In</a></li>
+          <li><a href="register.html" class="btn btn-primary btn-sm">Create Account</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-badge">
+        <span>📁</span> Your Private File Storage
+      </div>
+      <h1 class="hero-title">
+        Secure Digital Vault
+      </h1>
+      <p class="hero-subtitle">
+        Store and manage your important files securely in one private place.
+      </p>
+      <p class="hero-desc">
+        Upload, organize, and access your files easily with a simple and secure digital storage solution.
+      </p>
+      <div class="hero-actions">
+        <a href="register.html" class="btn btn-primary" style="padding: 0.85rem 2rem; font-size: 1rem;">
+          Get Started
+        </a>
+        <a href="login.html" class="btn btn-outline" style="padding: 0.85rem 2rem; font-size: 1rem;">
+          Sign In
+        </a>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" style="padding-top: 1rem;">
+      <div class="section-header">
+        <span class="badge badge-cyan">Features</span>
+        <h2>Everything You Need to Manage Your Files</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">📁</div>
+          <h3>Secure File Storage</h3>
+          <p>Keep your important files safely stored in one place.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">⚡</div>
+          <h3>Easy File Management</h3>
+          <p>Upload, view, download, and manage your files with ease.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">👤</div>
+          <h3>Private Access</h3>
+          <p>Access your files through your personal account.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">🔔</div>
+          <h3>Activity Notifications</h3>
+          <p>Stay informed about important activity on your account.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works-box">
+      <div class="section-header" style="margin-bottom: 1.5rem;">
+        <span class="badge badge-success">Workflow</span>
+        <h2>How It Works</h2>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-badge">1</div>
+          <h3>Create Your Account</h3>
+          <p>Set up your personal account.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-badge">2</div>
+          <h3>Upload Your Files</h3>
+          <p>Choose the files you want to store.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-badge">3</div>
+          <h3>Manage Your Files</h3>
+          <p>View, download, or delete your files whenever you need.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-badge">4</div>
+          <h3>Stay Protected</h3>
+          <p>The system automatically keeps your files protected.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-box">
+      <div class="about-content">
+        <span class="badge badge-cyan" style="margin-bottom: 0.75rem;">About Us</span>
+        <h2>Private & Reliable File Storage</h2>
+        <p>
+          Secure Digital Vault is built to provide individuals and teams with a hassle-free, dependable way to keep their digital documents organized and protected.
+        </p>
+        <p>
+          Our platform focuses on simplicity and peace of mind. You can quickly store records, view file details, and retrieve your files whenever you need them without dealing with complex setups.
+        </p>
+      </div>
+      <div class="about-highlights">
+        <div class="about-item">
+          <div class="about-item-icon">✨</div>
+          <div>
+            <strong style="color: var(--text-primary);">Effortless Organization</strong>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">Clean dashboard for managing all your digital files in one place.</p>
+          </div>
+        </div>
+        <div class="about-item">
+          <div class="about-item-icon">🔒</div>
+          <div>
+            <strong style="color: var(--text-primary);">Automatic Protection</strong>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">Comprehensive safety measures working seamlessly in the background.</p>
+          </div>
+        </div>
+        <div class="about-item">
+          <div class="about-item-icon">📊</div>
+          <div>
+            <strong style="color: var(--text-primary);">Clear Activity Records</strong>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">Real-time account updates and notifications whenever actions happen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+      <h2 class="cta-title">Ready to secure your files?</h2>
+      <p class="cta-desc">
+        Create your private vault and start managing your files today.
+      </p>
+      <a href="register.html" class="btn btn-primary" style="padding: 0.9rem 2.25rem; font-size: 1.05rem;">
+        Create Your Vault
+      </a>
+    </section>
+
+  </main>
+
+  <!-- Clean Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div style="font-weight: 700; font-size: 1rem; color: var(--text-primary);">
+        🛡️ Secure Digital Vault
+      </div>
+      <div>Simple, private and secure file management.</div>
+    </div>
+  </footer>
+
+  <script src="js/alerts.js"></script>
+</body>
+</html>
